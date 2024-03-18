@@ -3,7 +3,7 @@ from rclpy.node import Node
 from tkinter import Tk
 from std_msgs.msg import Float32
 
-from .avatar import AvatarFace
+from .avatar import AvatarFace, FullscreenManager
 
 INTERVAL = 30
 
@@ -14,6 +14,7 @@ class AvatarNode(Node):
 
         self.root = Tk()
         self.avatar = AvatarFace(self.root)
+        FullscreenManager(self.root, full_screen=True)
 
         self.mouth_subscription = self.create_subscription(
             Float32,

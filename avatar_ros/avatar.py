@@ -256,11 +256,26 @@ class AvatarFace():
         self.root.after(INTERVAL, self.loop)
 
 
+class FullscreenManager:
+    def __init__(self, root_tk, full_screen=True):
+        self._root_tk = root_tk
+        self._full_screen_state = full_screen
+        self._root_tk.attributes("-fullscreen", self._full_screen_state)
+        self._root_tk.bind("<F11>", self._toggle_fullscreen)
+        self._root_tk.bind("<Button-1>", self._toggle_fullscreen)
+        self._root_tk.bind("<Escape>", lambda event: self._root_tk.attributes("-fullscreen", False))
+
+    def _toggle_fullscreen(self, event):
+        self._full_screen_state = not self._full_screen_state
+        self._root_tk.attributes("-fullscreen", self._full_screen_state)
+
+
 if __name__ == "__main__":
     def exit_program(event):
         sys.exit(0)
 
     root = Tk()
     root.bind('<Control-c>', exit_program)
+    FullscreenManager(root, full_screen=True)
     avatar: AvatarFace = AvatarFace(root)
     avatar.begin()
